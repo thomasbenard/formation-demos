@@ -10,13 +10,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class BankAccountTest {
     @Test
     void date_of_transaction_is_set_to_now() {
-        BankAccount bankAccount = new BankAccount();
+        LocalDateTime dateTime = LocalDateTime.of(2017, 2, 13, 15, 56, 25);
+        FakeClock clock = new FakeClock(dateTime);
+        BankAccount bankAccount = new BankAccount(clock);
         bankAccount.deposit(100);
 
         List<Transaction> actualTransactions = bankAccount.getTransactions();
 
         assertEquals(1, actualTransactions.size());
         Transaction transaction = actualTransactions.get(0);
-        assertEquals(LocalDateTime.now(), transaction.dateTime);
+        assertEquals(dateTime, transaction.dateTime);
     }
 }
